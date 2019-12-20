@@ -3,6 +3,7 @@ package cinimex.org.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
@@ -20,7 +21,7 @@ public class CreditEntity {
     private Integer amount;
 
     @Column(name = "annual_rate")
-    private Integer annualRate;
+    private BigDecimal annualRate;
 
     @Column(name = "date_of_issue")
     private Timestamp dateOfIssue;
