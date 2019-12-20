@@ -27,6 +27,11 @@ public class CreditEntity {
     private Timestamp dateOfIssue;
 
     @Column(name = "closed")
-    private Boolean closed;
+    private Boolean isClosed;
 
+    @Column(name = "creditor_id")
+    private Long creditorId;
+
+    @Column(name = "borrower_id")
+    private Long borrowerId;
 }
