@@ -18,7 +18,7 @@ public class CreditEntity {
     private Long id;
 
     @Column(name = "amount")
-    private Integer amount;
+    private Float amount;
 
     @Column(name = "annual_rate")
     private BigDecimal annualRate;
@@ -26,7 +26,15 @@ public class CreditEntity {
     @Column(name = "date_of_issue")
     private Timestamp dateOfIssue;
 
-    @Column(name = "closed")
-    private Boolean closed;
+    @Column(name = "maturity_date")
+    private Timestamp maturityDate;
 
+    @Column(name = "closed")
+    private Boolean isClosed;
+
+    @Column(name = "creditor_id")
+    private Long creditorId;
+
+    @Column(name = "borrower_id")
+    private Long borrowerId;
 }

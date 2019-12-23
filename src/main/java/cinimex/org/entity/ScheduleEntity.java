@@ -1,6 +1,8 @@
 package cinimex.org.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -17,10 +19,17 @@ public class ScheduleEntity {
     private Long id;
 
     @Column(name = "amount")
-    private Integer amount;
+    private Float amount;
+
+
+    @Column(name = "number", insertable = false, columnDefinition = "serial", updatable = false)
+    private Integer number;
 
     @Column(name = "date")
     private Timestamp date;
+
+    @Column(name = "credit_id")
+    private Long creditId;
 
 
 }

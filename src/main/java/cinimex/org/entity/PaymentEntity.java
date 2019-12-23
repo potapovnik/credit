@@ -17,10 +17,16 @@ public class PaymentEntity {
     private Long id;
 
     @Column(name = "amount")
-    private Integer amount;
+    private Float amount;
+
+    @Column(name = "number")
+    private Integer number;
 
     @Column(name = "date")
     private Timestamp date;
+
+    @Column(name = "credit_id")
+    private Long creditId;
 
 
 }
