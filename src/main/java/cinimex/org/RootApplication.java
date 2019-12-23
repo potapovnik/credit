@@ -1,12 +1,11 @@
 package cinimex.org;
 
-import cinimex.org.controllers.BorrowerController;
-import cinimex.org.mappers.BorrowerMapper;
-import cinimex.org.services.BorrowerService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SpringBootApplication(scanBasePackageClasses = {BorrowerController.class, BorrowerService.class, BorrowerMapper.class})
+@SpringBootApplication()
+@EnableSwagger2()
 public class RootApplication {
     public static void main(String[] args) {
         SpringApplication.run(RootApplication.class, args);
