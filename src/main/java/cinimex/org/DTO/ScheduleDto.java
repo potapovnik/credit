@@ -9,7 +9,8 @@ import java.sql.Timestamp;
 public class ScheduleDto {
 
     private Long id;
-    private Integer amount;
+    private Float amount;
+    private Integer number;
     private Timestamp date;
     private Long creditId;
 

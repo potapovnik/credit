@@ -31,8 +31,9 @@ public class CreditController {
     }
 
     @GetMapping("/byFIO")
-    public Response allCreditByFIO(@RequestParam("surname") String surname,
+    public Response allCreditByFIO(
                                    @RequestParam("name") String name,
+                                   @RequestParam("surname") String surname,
                                    @RequestParam("lastname") String lastname) {
         return Response.success(creditService.findAllByFIO(name, surname, lastname));
     }
@@ -42,8 +43,13 @@ public class CreditController {
                                         @RequestParam(value = "toDate") @DateTimeFormat(pattern = "MM-dd-yyyy") Date toDate) {
         return Response.success(creditService.findForInterval(fromDate,toDate));
     }
-    @GetMapping
+    @GetMapping("/dangerous")
     public Response allDangerous(){
         return Response.success(creditService.findDangerous());
+    }
+
+    @GetMapping("byId")
+    public Response findById(@RequestParam Long id){
+        return Response.success(creditService.findById(id));
     }
 }

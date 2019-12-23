@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface CreditRepository extends JpaRepository<CreditEntity,Long> {
     List<CreditEntity> findAllById(Long id);
-    List<CreditEntity> findByStartDateOfIssueBetween(Date fromDate,Date toDate);
+    List<CreditEntity> findByDateOfIssueBetween(Date fromDate,Date toDate);
     List<CreditEntity> findAllByIsClosed(boolean isClosed);
 }

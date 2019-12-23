@@ -52,9 +52,10 @@ create table credit
 	id bigserial not null
 		constraint credit_pk
 			primary key,
-	amount integer,
+	amount float,
 	annual_rate decimal ,
 	date_of_issue timestamp,
+	maturity_date timestamp,
 	closed boolean,
 	creditor_id integer
 		constraint credit_users_id_fk
@@ -74,7 +75,8 @@ create table payment
 	id bigserial not null
 		constraint payment_pk
 			primary key,
-	amount integer,
+	amount float,
+	number integer,
 	date timestamp,
 	credit_id integer
 		constraint payment_credit_id_fk
@@ -88,12 +90,16 @@ create table schedule
 	id bigserial not null
 		constraint schedule_pk
 			primary key,
-	amount integer,
+	amount float,
+	number serial,
 	date timestamp,
 	credit_id integer
 		constraint schedule_credit_id_fk
 			references credit
 );
+create unique index schedule_number_uindex
+	on schedule (number);
+
 
 alter table schedule owner to postgres;
 

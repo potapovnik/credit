@@ -20,7 +20,7 @@ public class BorrowerDto {
     private Long creditorId;
     private Long borrowerId;
 
-    public List<String> getFieldsForCheck() {
+    public List<String> fieldsForCheck() {
         return Arrays.asList(name, surname,
                 passportNumber.toString(),
                 passportSeries.toString(),

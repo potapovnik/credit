@@ -6,6 +6,7 @@
 
     <!--schema-->
     <include relativeToChangelogFile="true" file="sql/init_1.0.sql" />
+    <include relativeToChangelogFile="true" file="sql/test_data.sql" />
 
 
 

@@ -18,13 +18,16 @@ public class CreditEntity {
     private Long id;
 
     @Column(name = "amount")
-    private Integer amount;
+    private Float amount;
 
     @Column(name = "annual_rate")
     private BigDecimal annualRate;
 
     @Column(name = "date_of_issue")
     private Timestamp dateOfIssue;
+
+    @Column(name = "maturity_date")
+    private Timestamp maturityDate;
 
     @Column(name = "closed")
     private Boolean isClosed;

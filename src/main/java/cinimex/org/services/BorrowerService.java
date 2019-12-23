@@ -7,6 +7,8 @@ import cinimex.org.repository.BorrowerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service("borrower")
 @AllArgsConstructor
 public class BorrowerService {
@@ -21,7 +23,7 @@ public class BorrowerService {
     }
 
     private void checkOnNull(BorrowerDto borrowerDto) {
-        boolean isNull = borrowerDto.getFieldsForCheck().stream().anyMatch(o -> o == null);
+        boolean isNull = borrowerDto.fieldsForCheck().stream().anyMatch(Objects::isNull);
         if (isNull)
             throw new NullPointerException("borrower have one or more basic fields is null");
     }
