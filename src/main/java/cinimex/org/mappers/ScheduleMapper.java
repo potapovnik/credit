@@ -1,8 +1,6 @@
 package cinimex.org.mappers;
 
-import cinimex.org.DTO.RoleDto;
-import cinimex.org.DTO.ScheduleDto;
-import cinimex.org.entity.RoleEntity;
+import cinimex.org.transfer_obj.ScheduleDto;
 import cinimex.org.entity.ScheduleEntity;
 import org.mapstruct.Mapper;
 

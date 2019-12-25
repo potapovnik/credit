@@ -1,6 +1,6 @@
 package cinimex.org.mappers;
 
-import cinimex.org.DTO.BorrowerDto;
+import cinimex.org.transfer_obj.BorrowerDto;
 import cinimex.org.entity.BorrowerEntity;
 import org.mapstruct.Mapper;
 

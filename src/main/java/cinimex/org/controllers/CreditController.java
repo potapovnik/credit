@@ -1,10 +1,11 @@
 package cinimex.org.controllers;
 
-import cinimex.org.DTO.CreditDto;
+import cinimex.org.transfer_obj.CreditDto;
 import cinimex.org.services.CreditService;
 import cinimex.org.utils.Response;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -30,12 +31,12 @@ public class CreditController {
         return Response.success(creditService.findAll());
     }
 
-    @GetMapping("/byFIO")
-    public Response allCreditByFIO(
+    @GetMapping("/byFio")
+    public Response allCreditByFio(
                                    @RequestParam("name") String name,
                                    @RequestParam("surname") String surname,
-                                   @RequestParam("lastname") String lastname) {
-        return Response.success(creditService.findAllByFIO(name, surname, lastname));
+                                   @RequestParam("lastName") String lastName) {
+        return Response.success(creditService.findAllByFio(name, surname, lastName));
     }
 
     @GetMapping("/byInterval")
@@ -43,6 +44,7 @@ public class CreditController {
                                         @RequestParam(value = "toDate") @DateTimeFormat(pattern = "MM-dd-yyyy") Date toDate) {
         return Response.success(creditService.findForInterval(fromDate,toDate));
     }
+    @PreAuthorize("has('administrator')")
     @GetMapping("/dangerous")
     public Response allDangerous(){
         return Response.success(creditService.findDangerous());

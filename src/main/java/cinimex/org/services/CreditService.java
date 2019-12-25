@@ -1,7 +1,6 @@
 package cinimex.org.services;
 
-import cinimex.org.DTO.CreditDto;
-import cinimex.org.DTO.ScheduleDto;
+import cinimex.org.transfer_obj.CreditDto;
 import cinimex.org.entity.BorrowerEntity;
 import cinimex.org.entity.CreditEntity;
 import cinimex.org.entity.PaymentEntity;
@@ -14,13 +13,8 @@ import cinimex.org.repository.PaymentRepository;
 import cinimex.org.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.swing.text.html.parser.Entity;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Month;
 import java.util.*;
 
 @Service("credit")
@@ -47,7 +41,7 @@ public class CreditService {
         int countSchedule = (toDate.get(Calendar.YEAR) - fromDate.get(Calendar.YEAR)) * 12 + (toDate.get(Calendar.MONTH) - fromDate.get(Calendar.MONTH));// количество платежей
         for (int i = 0; i < countSchedule; i++) {
             ScheduleEntity scheduleEntity = new ScheduleEntity();
-            scheduleEntity.setCreditId(saved.getId());
+            scheduleEntity.setCredit(saved);
             scheduleEntity.setAmount(creditDto.getAmount() / countSchedule);
             GregorianCalendar lGregorianCalendar = new GregorianCalendar();
             lGregorianCalendar.setTimeInMillis(creditDto.getDateOfIssue().getTime());
@@ -76,10 +70,9 @@ public class CreditService {
         return creditMapper.toDto(creditRepository.findAll());
     }
 
-    public List<CreditDto> findAllByFIO(String name, String surname, String lastname) {
-
-        BorrowerEntity borrower = borrowerRepository.findAllByNameAndSurnameAndLastName(name, surname, lastname);
-        List<CreditEntity> creditOfBorrower = creditRepository.findAllById(borrower.getId());
+    public List<CreditDto> findAllByFio(String name, String surname, String lastName) {
+        BorrowerEntity borrower = borrowerRepository.findAllByNameAndSurnameAndLastName(name, surname, lastName);
+        List<CreditEntity> creditOfBorrower = borrower.getCredits();
         return creditMapper.toDto(creditOfBorrower);
     }
 
@@ -95,8 +88,8 @@ public class CreditService {
         List<CreditEntity> allNotClosedCredit = creditRepository.findAllByIsClosed(false); // ищем все не закрытые
         List<CreditEntity> dangerousCredits = new ArrayList<>();
         for (CreditEntity cur : allNotClosedCredit) {
-            List<PaymentEntity> payments = paymentRepository.findAllByCreditId(cur.getId());
-            List<ScheduleEntity> schedule = scheduleRepository.findAllByCreditId(cur.getId());
+            List<PaymentEntity> payments = cur.getPayments();
+            List<ScheduleEntity> schedule = cur.getSchedules();
             boolean expired = false;
             for (ScheduleEntity curSchedule : schedule) { // сверим все графики с реально внесёнными платежами
                 float sum = 0;
@@ -126,7 +119,6 @@ public class CreditService {
     }
 
     private void checkOnNull(CreditDto creditDto) {
-
         boolean isNull = creditDto.fieldsForCheck().stream().anyMatch(Objects::isNull);
         if (isNull)
             throw new NullPointerException("credit have one or more basic fields is null");

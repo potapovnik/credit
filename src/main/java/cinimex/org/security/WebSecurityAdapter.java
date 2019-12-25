@@ -38,8 +38,6 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers().permitAll()
-                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

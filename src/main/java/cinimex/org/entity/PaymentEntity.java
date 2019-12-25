@@ -25,8 +25,8 @@ public class PaymentEntity {
     @Column(name = "date")
     private Timestamp date;
 
-    @Column(name = "credit_id")
-    private Long creditId;
+    @ManyToOne
+    private CreditEntity credit;
 
 
 }

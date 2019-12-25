@@ -1,7 +1,7 @@
 package cinimex.org.services;
 
 
-import cinimex.org.DTO.PaymentDto;
+import cinimex.org.transfer_obj.PaymentDto;
 import cinimex.org.entity.CreditEntity;
 import cinimex.org.entity.PaymentEntity;
 import cinimex.org.exception.LogicException;
@@ -24,14 +24,14 @@ public class PaymentService {
 
     public boolean payOffDebt(PaymentDto paymentDto) {
         checkOnNull(paymentDto);
-        List<PaymentEntity> payments = paymentRepository.findAllByCreditId(paymentDto.getCreditId());
+        Optional<CreditEntity> credit = creditRepository.findById(paymentDto.getCreditId());
+        if (!credit.isPresent())
+            throw new LogicException("Кредита для досрочного погашения не существует, id:" + paymentDto.getCreditId());
+        List<PaymentEntity> payments = credit.get().getPayments();
         float sum = 0;
         for (PaymentEntity curPayment : payments) {
             sum += curPayment.getAmount();
         }
-        Optional<CreditEntity> credit = creditRepository.findById(paymentDto.getCreditId());
-        if (!credit.isPresent())
-            throw new LogicException("Кредита для досрочного погашения не существует, id:" + paymentDto.getCreditId());
         if (sum + paymentDto.getAmount() < credit.get().getAmount())
             throw new LogicException("Данной суммы недостаточно для погашения кредита с id:" + paymentDto.getCreditId());
         else {

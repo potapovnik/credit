@@ -3,6 +3,7 @@ package cinimex.org.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "borrower", schema = "public", catalog = "credit")
@@ -36,5 +37,7 @@ public class BorrowerEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "borrower")
+    private List<CreditEntity> credits;
 
 }

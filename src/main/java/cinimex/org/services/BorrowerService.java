@@ -1,6 +1,6 @@
 package cinimex.org.services;
 
-import cinimex.org.DTO.BorrowerDto;
+import cinimex.org.transfer_obj.BorrowerDto;
 import cinimex.org.entity.BorrowerEntity;
 import cinimex.org.mappers.BorrowerMapper;
 import cinimex.org.repository.BorrowerRepository;

@@ -1,8 +1,7 @@
-package cinimex.org.DTO;
+package cinimex.org.transfer_obj;
 
 import lombok.Data;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;

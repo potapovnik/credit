@@ -1,4 +1,4 @@
-package cinimex.org.DTO;
+package cinimex.org.transfer_obj;
 
 import lombok.Data;
 

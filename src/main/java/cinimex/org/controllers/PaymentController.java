@@ -1,6 +1,6 @@
 package cinimex.org.controllers;
 
-import cinimex.org.DTO.PaymentDto;
+import cinimex.org.transfer_obj.PaymentDto;
 import cinimex.org.services.PaymentService;
 import cinimex.org.utils.Response;
 import lombok.AllArgsConstructor;

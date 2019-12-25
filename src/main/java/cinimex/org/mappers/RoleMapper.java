@@ -1,8 +1,6 @@
 package cinimex.org.mappers;
 
-import cinimex.org.DTO.PaymentDto;
-import cinimex.org.DTO.RoleDto;
-import cinimex.org.entity.PaymentEntity;
+import cinimex.org.transfer_obj.RoleDto;
 import cinimex.org.entity.RoleEntity;
 import org.mapstruct.Mapper;
 

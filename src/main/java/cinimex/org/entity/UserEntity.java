@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "credit")
@@ -32,6 +34,13 @@ public class UserEntity {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @ManyToOne
+    private RoleEntity role;
+
+    @OneToMany(mappedBy = "creditor")
+    private List<CreditEntity> credits;
+
 
     public static final PasswordEncoder PASSWORD_ENCODER = new Pbkdf2PasswordEncoder("nikomuNeskazhu", 512, 512);
 

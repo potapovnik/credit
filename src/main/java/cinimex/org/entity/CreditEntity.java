@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "credit", schema = "public", catalog = "credit")
@@ -32,9 +33,15 @@ public class CreditEntity {
     @Column(name = "closed")
     private Boolean isClosed;
 
-    @Column(name = "creditor_id")
-    private Long creditorId;
+    @ManyToOne
+    private UserEntity creditor;
 
-    @Column(name = "borrower_id")
-    private Long borrowerId;
+    @ManyToOne
+    private BorrowerEntity borrower;
+
+    @OneToMany(mappedBy = "credit")
+    private List<PaymentEntity> payments;
+
+    @OneToMany(mappedBy = "credit")
+    private List<ScheduleEntity> schedules;
 }

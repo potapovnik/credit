@@ -1,6 +1,6 @@
 package cinimex.org.controllers;
 
-import cinimex.org.DTO.BorrowerDto;
+import cinimex.org.transfer_obj.BorrowerDto;
 import cinimex.org.services.BorrowerService;
 import cinimex.org.utils.Response;
 import lombok.AllArgsConstructor;
