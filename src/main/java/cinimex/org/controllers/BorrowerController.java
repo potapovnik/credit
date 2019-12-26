@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/borrower")
 @AllArgsConstructor
+
 @PreAuthorize("hasAuthority('administrator') or hasAuthority('loan manager')")
 public class BorrowerController {
     private final BorrowerService borrowerService;

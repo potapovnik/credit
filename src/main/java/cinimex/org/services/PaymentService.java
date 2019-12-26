@@ -23,7 +23,7 @@ public class PaymentService {
     private final PaymentMapper paymentMapper;
 
     public boolean payOffDebt(PaymentDto paymentDto) {
-        checkOnNull(paymentDto);
+        //checkOnNull(paymentDto);
         Optional<CreditEntity> credit = creditRepository.findById(paymentDto.getCreditId());
         if (!credit.isPresent())
             throw new LogicException("Кредита для досрочного погашения не существует, id:" + paymentDto.getCreditId());
