@@ -13,6 +13,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/credit")
 @AllArgsConstructor
+@PreAuthorize("hasAuthority('administrator') or hasAuthority('loan manager')")
 public class CreditController {
     private final CreditService creditService;
 
@@ -44,7 +45,6 @@ public class CreditController {
                                         @RequestParam(value = "toDate") @DateTimeFormat(pattern = "MM-dd-yyyy") Date toDate) {
         return Response.success(creditService.findForInterval(fromDate,toDate));
     }
-    @PreAuthorize("has('administrator')")
     @GetMapping("/dangerous")
     public Response allDangerous(){
         return Response.success(creditService.findDangerous());
