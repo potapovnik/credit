@@ -29,7 +29,7 @@ public class CreditService {
     public boolean create(CreditDto creditDto) {
         checkOnNull(creditDto);
         if (creditDto.getAmount() <= 0) {
-            throw new LogicException("amount of credit cant be equals or less then 0");
+            throw new LogicException("Величина денег должна быть больше 0");
         }
         if (creditDto.getIsClosed() == null) // если не выставлено, то по умолчанию "не закрыт"
             creditDto.setIsClosed(false);
@@ -77,9 +77,10 @@ public class CreditService {
     }
 
     public List<CreditDto> findForInterval(Date fromDate, Date toDate) {
-        if (fromDate.compareTo(toDate) <= 0)// начало интервала должно быть больше чем конец
+        if (fromDate.compareTo(toDate) > 0)// начало интервала должно быть больше чем конец
         {
-        } // logger
+            throw new LogicException("fromDate должно быть меньше чем toDate");
+        }
         List<CreditEntity> allCreditInInterval = creditRepository.findByDateOfIssueBetween(fromDate, toDate);
         return creditMapper.toDto(allCreditInInterval);
     }
@@ -108,7 +109,9 @@ public class CreditService {
             if (expired)
                 dangerousCredits.add(cur);
         }
-        return creditMapper.toDto(dangerousCredits);
+        if (!dangerousCredits.isEmpty())
+            return creditMapper.toDto(dangerousCredits);
+        return null;
     }
 
     public CreditDto findById(Long id) {
