@@ -10,6 +10,7 @@ import cinimex.org.repository.BorrowerRepository;
 import cinimex.org.repository.CreditRepository;
 import cinimex.org.repository.ScheduleRepository;
 import cinimex.org.transfer_obj.CreditDto;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,23 +54,32 @@ class CreditServiceTest {
     @Mock
     private CreditMapper creditMapper;
 
-    @Test
-    void create() {
-        CreditDto creditDto = new CreditDto();
+    CreditDto creditInit() {
+       CreditDto creditDto = new CreditDto();
         creditDto.setAmount(-1f);
         creditDto.setAnnualRate(new BigDecimal(5));
         creditDto.setDateOfIssue(new Timestamp(System.nanoTime()));
         creditDto.setMaturityDate(new Timestamp(System.nanoTime() + 10000));
         creditDto.setBorrowerId(1);
         creditDto.setCreditorId(1);
-        assertThatThrownBy(() -> creditService.create(creditDto))
+        return creditDto;
+    }
+
+    @Test
+    void createCheckExceptionNotMoney() {
+        creditInit();
+        assertThatThrownBy(() -> creditService.create(creditInit()))
                 .isInstanceOf(LogicException.class)
                 .hasMessageContaining("Величина денег должна быть больше 0");
+    }
+
+    @Test
+    void createSuccess() {
+        CreditDto creditDto = creditInit();
         creditDto.setAmount(200f);
         CreditEntity creditEntity = creditMap.fromDto(creditDto);
         Mockito.when(creditRepository.save(creditMapper.fromDto(creditDto))).thenReturn(creditEntity);
         assertTrue(creditService.create(creditDto));
-
     }
 
     @Test

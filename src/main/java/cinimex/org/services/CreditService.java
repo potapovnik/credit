@@ -11,9 +11,11 @@ import cinimex.org.repository.BorrowerRepository;
 import cinimex.org.repository.CreditRepository;
 import cinimex.org.repository.PaymentRepository;
 import cinimex.org.repository.ScheduleRepository;
+import cinimex.org.utils.enums.ModeSchedule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -25,6 +27,8 @@ public class CreditService {
     private final PaymentRepository paymentRepository;
     private final ScheduleRepository scheduleRepository;
     private final CreditMapper creditMapper;
+    private Integer modeSchedule = 5;
+    private BigDecimal annualRate = new BigDecimal(3);
 
     public boolean create(CreditDto creditDto) {
         checkOnNull(creditDto);
@@ -33,12 +37,18 @@ public class CreditService {
         }
         if (creditDto.getIsClosed() == null) // если не выставлено, то по умолчанию "не закрыт"
             creditDto.setIsClosed(false);
+        creditDto.setAnnualRate(annualRate);
         CreditEntity saved = creditRepository.save(creditMapper.fromDto(creditDto)); //Сохраняем кредит
         Calendar fromDate = new GregorianCalendar();
         fromDate.setTimeInMillis(creditDto.getDateOfIssue().getTime());
         Calendar toDate = new GregorianCalendar();
         toDate.setTimeInMillis(creditDto.getMaturityDate().getTime());
-        int countSchedule = (toDate.get(Calendar.YEAR) - fromDate.get(Calendar.YEAR)) * 12 + (toDate.get(Calendar.MONTH) - fromDate.get(Calendar.MONTH));// количество платежей
+        int countSchedule;
+        if (modeSchedule.equals(ModeSchedule.FREE.getId()))
+            countSchedule = (toDate.get(Calendar.YEAR) - fromDate.get(Calendar.YEAR)) * 12 + (toDate.get(Calendar.MONTH) - fromDate.get(Calendar.MONTH));// количество платежей
+        else
+            countSchedule = ModeSchedule.getMonthsById(modeSchedule).getMonths();
+
         for (int i = 0; i < countSchedule; i++) {
             ScheduleEntity scheduleEntity = new ScheduleEntity();
             scheduleEntity.setCredit(saved);
@@ -127,5 +137,16 @@ public class CreditService {
             throw new NullPointerException("credit have one or more basic fields is null");
     }
 
-
+    public boolean settingParam(Integer modeSchedule, BigDecimal annualRate) {
+        if (annualRate == null || modeSchedule == null)
+            return false;
+        if (annualRate.compareTo(new BigDecimal(0)) < 0) {
+            throw new LogicException("Ставка не может быть меньше нуля");
+        }
+        if (modeSchedule < 1 || modeSchedule > 5)
+            throw new LogicException("modeSchedule принимает не верное значение");
+        this.modeSchedule = modeSchedule;
+        this.annualRate = annualRate;
+        return true;
+    }
 }
